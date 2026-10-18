@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "51582803633",
+    "project_id": "borrowit-dbca5",
+    "storage_bucket": "borrowit-dbca5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51582803633:android:ff5f331e3b0b7352490c90",
+        "android_client_info": {
+          "package_name": "com.example.borrow_it"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSUE1iyjSxDfGxxSJbw0gidZtCwzFU9Tk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
