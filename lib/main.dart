@@ -8,10 +8,11 @@ import 'notification_service.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  // Firebase must start first or every Firebase call crashes with "No Firebase App"
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+  // Sets up notifications. If this is removed the app runs but no notification shows
   await initNotifications();
 
   runApp(const MyApp());
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFFFAF9F5),
         useMaterial3: true,
       ),
-
+      
+      // Logged in users go to EquipmentPage, everyone else goes to LoginPage
       home: FirebaseAuth.instance.currentUser == null ? LoginPage() : EquipmentPage(),
       debugShowCheckedModeBanner: false,
     );

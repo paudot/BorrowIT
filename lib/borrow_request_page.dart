@@ -116,7 +116,7 @@ class _BorrowRequestPageState extends State<BorrowRequestPage> {
       });
     }
   }
-
+  // setState is what shows the picked photo. Without it the photo box stays empty
   // Take a photo with the camera or choose one from the gallery
   Future<void> attachPhoto(ImageSource source) async {
     ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
@@ -146,6 +146,8 @@ class _BorrowRequestPageState extends State<BorrowRequestPage> {
     }
   }
 
+  // New request: photo is saved on the phone first using the request id, then the
+  // request goes to Firestore with status Pending. Edit only updates dates and purpose
   // Save the request in Firestore (new request or edited request)
   Future<void> submitRequest() async {
     bool formOk = formKey.currentState!.validate();

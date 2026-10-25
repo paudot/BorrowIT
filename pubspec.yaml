@@ -62,6 +62,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # Images show as icons if this assets folder line is removed or misspelled
   assets:
     - assets/images/
 

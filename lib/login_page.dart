@@ -27,6 +27,8 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  // Signs in with Firebase Auth, then goes to EquipmentPage only if mounted is true
+  // Every validator must end with return null or the form shows a red error
   Future<void> _handleLogin() async {
     if (formKey.currentState!.validate()) {
       setState(() {

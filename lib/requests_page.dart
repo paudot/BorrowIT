@@ -99,6 +99,8 @@ class RequestsPage extends StatelessWidget {
                 List<QueryDocumentSnapshot> requests = [];
                 for (var doc in snapshot.data!.docs) {
                   Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+                  // History shows Returned only, My Requests shows everything else.
+                  // Status text must match exactly: Pending, Approved, Borrowed, Returned
                   bool isReturned = data['status'] == 'Returned';
                   if (isReturned == showHistory) {
                     requests.add(doc);
@@ -312,7 +314,7 @@ class RequestsPage extends StatelessWidget {
                                 ),
                             ],
                           ),
-
+                          // Edit and Cancel need status Pending, the Return button needs Borrowed
                           // Only pending requests can be edited or cancelled
                           if (status == 'Pending')
                             Row(

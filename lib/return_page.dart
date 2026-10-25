@@ -51,7 +51,7 @@ class _ReturnPageState extends State<ReturnPage> {
       );
     }
   }
-
+  // Photo is required. It saves the after photo, then sets status to Returned in Firestore
   // Save the photo, then mark the request as Returned in Firestore
   Future<void> submitReturn() async {
     // The photo is required

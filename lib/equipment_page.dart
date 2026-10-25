@@ -68,7 +68,8 @@ class _EquipmentPageState extends State<EquipmentPage> {
     }
     return parts[0][0].toUpperCase();
   }
-
+  // Needs the userId filter and the lastStatus map. A notification only shows when
+  // the status really changed. Borrowed schedules the reminder, anything else cancels it
     // Watches this student's requests and shows a notification when a status changes
   void listenToRequests() {
     User? user = FirebaseAuth.instance.currentUser;
@@ -174,6 +175,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
 
                   // Search Bar
                   TextField(
+                    // setState here is what refreshes the list while typing
                     onChanged: (value) {
                       setState(() {
                         searchQuery = value;
@@ -244,6 +246,8 @@ class _EquipmentPageState extends State<EquipmentPage> {
             // Equipment Grid (data comes from Firestore)
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
+                // Collection name is equipment and it is ordered by title.
+                // Empty list means check the collection name and the field names
                 stream: FirebaseFirestore.instance
                     .collection('equipment')
                     .orderBy('title')

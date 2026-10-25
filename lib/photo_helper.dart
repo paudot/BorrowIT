@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 // The photos are saved on the phone itself (local storage), not in the database.
 // Each file is named after its request: <requestId>_before.jpg or <requestId>_after.jpg
 
+// Photos live in the app documents folder named requestId_before.jpg or requestId_after.jpg
 // Gets the file where a photo is (or will be) saved
 Future<File> photoFile(String requestId, String type) async {
   Directory folder = await getApplicationDocumentsDirectory();
