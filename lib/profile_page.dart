@@ -4,21 +4,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   static const Color primaryBlue = Color(0xFF1E40AF);
 
   // Sign out method
   Future<void> _handleSignOut() async {
-    await _auth.signOut();
+    await auth.signOut();
     if (mounted) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final User? currentUser = _auth.currentUser;
+    final User? currentUser = auth.currentUser;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: currentUser == null
           ? const Center(child: Text('No user logged in.'))
           : StreamBuilder<DocumentSnapshot>(
-              stream: _firestore
+              stream: firestore
                   .collection('users')
                   .doc(currentUser.uid)
                   .snapshots(),
@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 }
 
                 // Generate initials for the avatar (e.g. "Juan Dela Cruz" -> "JD")
-                List<String> nameParts = fullName.trim().split(' ');
+                List<String> nameParts = fullName.trim().split(RegExp(r'\s+'));
                 String initials = nameParts.length > 1
                     ? '${nameParts[0][0]}${nameParts[1][0]}'.toUpperCase()
                     : fullName.isNotEmpty

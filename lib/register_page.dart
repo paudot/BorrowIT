@@ -4,58 +4,58 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'equipment_page.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+    const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _fullNameController = TextEditingController();
-  final _studentIdController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final fullNameField = TextEditingController();
+  final studentIdField = TextEditingController();
+  final emailField = TextEditingController();
+  final passwordField = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  bool _isLoading = false;
+  bool isLoading = false;
   static const Color primaryBlue = Color(0xFF1E40AF);
 
   @override
   void dispose() {
-    _fullNameController.dispose();
-    _studentIdController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+    fullNameField.dispose();
+    studentIdField.dispose();
+    emailField.dispose();
+    passwordField.dispose();
     super.dispose();
   }
 
   Future<void> _handleRegister() async {
-    if (_formKey.currentState!.validate()) {
+    if (formKey.currentState!.validate()) {
       setState(() {
-        _isLoading = true;
+        isLoading = true;
       });
 
       try {
         // 1. Create User in Firebase Auth
         UserCredential userCredential =
-            await _auth.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
+            await auth.createUserWithEmailAndPassword(
+          email: emailField.text.trim(),
+          password: passwordField.text.trim(),
         );
 
         // 2. Save Student Info to Firestore
         if (userCredential.user != null) {
-          await _firestore
+          await firestore
               .collection('users')
               .doc(userCredential.user!.uid)
               .set({
             'uid': userCredential.user!.uid,
-            'fullName': _fullNameController.text.trim(),
-            'studentId': _studentIdController.text.trim(),
-            'email': _emailController.text.trim(),
+            'fullName': fullNameField.text.trim(),
+            'studentId': studentIdField.text.trim(),
+            'email': emailField.text.trim(),
             'createdAt': FieldValue.serverTimestamp(),
           });
         }
@@ -78,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
       } finally {
         if (mounted) {
           setState(() {
-            _isLoading = false;
+            isLoading = false;
           });
         }
       }
@@ -111,17 +111,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         Row(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
+                              Container(
+                              width: 44,
+                              height: 44,
+                              padding: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFF59E0B),
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Icon(
-                                Icons.swap_horiz_rounded,
-                                color: Colors.black,
-                                size: 24,
-                              ),
+                              child: Image.asset('assets/images/logo.png'),
                             ),
                             const SizedBox(width: 12),
                             const Text(
@@ -173,7 +171,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ],
                     ),
                     child: Form(
-                      key: _formKey,
+                      key: formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -186,7 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
-                            controller: _fullNameController,
+                            controller: fullNameField,
                             decoration: InputDecoration(
                               hintText: 'Juan Dela Cruz',
                               hintStyle: TextStyle(color: Colors.grey[400]),
@@ -194,10 +192,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            validator: (value) =>
-                                (value == null || value.trim().isEmpty)
-                                    ? 'Please enter your full name'
-                                    : null,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "Full name is required";
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: 16),
 
@@ -210,18 +210,20 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
-                            controller: _studentIdController,
+                            controller: studentIdField,
                             decoration: InputDecoration(
-                              hintText: '2023-12345',
+                              hintText: '2023123415',
                               hintStyle: TextStyle(color: Colors.grey[400]),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            validator: (value) =>
-                                (value == null || value.trim().isEmpty)
-                                    ? 'Please enter your student ID'
-                                    : null,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "Student ID is required";
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: 16),
 
@@ -234,19 +236,24 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
-                            controller: _emailController,
+                            controller: emailField,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              hintText: 'you@school.edu.ph',
+                              hintText: 'you@ms.bulsu.edu.ph',
                               hintStyle: TextStyle(color: Colors.grey[400]),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            validator: (value) => (value == null ||
-                                    !value.contains('@'))
-                                ? 'Please enter a valid school email'
-                                : null,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Email is required";
+                              }
+                              if (!value.contains("@")) {
+                                return "Please enter a valid school email";
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: 16),
 
@@ -259,7 +266,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
-                            controller: _passwordController,
+                            controller: passwordField,
                             obscureText: true,
                             decoration: InputDecoration(
                               hintText: 'At least 8 characters',
@@ -268,10 +275,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            validator: (value) => (value == null ||
-                                    value.length < 8)
-                                ? 'Password must be at least 8 characters'
-                                : null,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Password is required";
+                              }
+                              if (value.length < 8) {
+                                return "Password must be at least 8 characters";
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: 24),
 
@@ -286,8 +298,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   borderRadius: BorderRadius.circular(14),
                                 ),
                               ),
-                              onPressed: _isLoading ? null : _handleRegister,
-                              child: _isLoading
+                              onPressed: isLoading ? null : _handleRegister,
+                              child: isLoading
                                   ? const CircularProgressIndicator(
                                       color: Colors.white)
                                   : const Text(
@@ -320,6 +332,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               ),
+              const SizedBox(height: 15),
             ],
           ),
         ),

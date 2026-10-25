@@ -4,39 +4,39 @@ import 'equipment_page.dart';
 import 'register_page.dart'; // Import register screen
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+    const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final emailField = TextEditingController();
+  final passwordField = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  bool _isLoading = false;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  bool isLoading = false;
 
   static const Color primaryBlue = Color(0xFF1E40AF);
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    emailField.dispose();
+    passwordField.dispose();
     super.dispose();
   }
 
   Future<void> _handleLogin() async {
-    if (_formKey.currentState!.validate()) {
+    if (formKey.currentState!.validate()) {
       setState(() {
-        _isLoading = true;
+        isLoading = true;
       });
 
       try {
-        await _auth.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
+        await auth.signInWithEmailAndPassword(
+          email: emailField.text.trim(),
+          password: passwordField.text.trim(),
         );
 
         if (mounted) {
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
       } finally {
         if (mounted) {
           setState(() {
-            _isLoading = false;
+            isLoading = false;
           });
         }
       }
@@ -88,17 +88,15 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Row(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
+                              Container(
+                              width: 44,
+                              height: 44,
+                              padding: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFF59E0B),
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Icon(
-                                Icons.swap_horiz_rounded,
-                                color: Colors.black,
-                                size: 24,
-                              ),
+                              child: Image.asset('assets/images/logo.png'),
                             ),
                             const SizedBox(width: 12),
                             const Text(
@@ -150,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                     child: Form(
-                      key: _formKey,
+                      key: formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -164,19 +162,24 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
-                            controller: _emailController,
+                            controller: emailField,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              hintText: 'you@school.edu.ph',
+                              hintText: 'you@ms.bulsu.edu.ph',
                               hintStyle: TextStyle(color: Colors.grey[400]),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            validator: (value) => (value == null ||
-                                    !value.contains('@'))
-                                ? 'Please enter a valid school email'
-                                : null,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Email is required";
+                              }
+                              if (!value.contains("@")) {
+                                return "Please enter a valid school email";
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(height: 20),
 
@@ -190,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
-                            controller: _passwordController,
+                            controller: passwordField,
                             obscureText: true,
                             decoration: InputDecoration(
                               hintText: 'At least 8 characters',
@@ -199,10 +202,15 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            validator: (value) => (value == null ||
-                                    value.length < 8)
-                                ? 'Password must be at least 8 characters'
-                                : null,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Password is required";
+                                }
+                                if (value.length < 8) {
+                                  return "Password must be at least 8 characters";
+                                }
+                                return null;
+                              },
                           ),
                           const SizedBox(height: 24),
 
@@ -219,8 +227,8 @@ class _LoginPageState extends State<LoginPage> {
                                   borderRadius: BorderRadius.circular(14),
                                 ),
                               ),
-                              onPressed: _isLoading ? null : _handleLogin,
-                              child: _isLoading
+                              onPressed: isLoading ? null : _handleLogin,
+                              child: isLoading
                                   ? const CircularProgressIndicator(
                                       color: Colors.white)
                                   : const Text(
@@ -262,19 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 32),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                child: Text(
-                  'Secured with Firebase Authentication. Use your school email to sign up.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                    height: 1.4,
-                  ),
-                ),
-              ),
+              const SizedBox(height: 15),
             ],
           ),
         ),

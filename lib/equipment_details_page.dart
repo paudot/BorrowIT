@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'helpers.dart';
+import 'borrow_request_page.dart';
 
 class EquipmentDetailsPage extends StatelessWidget {
   final Map<String, dynamic> item;
 
-  const EquipmentDetailsPage({Key? key, required this.item}) : super(key: key);
+  const EquipmentDetailsPage({super.key, required this.item});
 
   static const Color primaryBlue = Color(0xFF1E40AF);
 
   @override
   Widget build(BuildContext context) {
-    final bool isAvailable = item['isAvailable'] ?? true;
     final int availableCount = item['available'] ?? 0;
-    final int totalCount = item['total'] ?? 5; // Default max stock for prototype
+    final int totalCount = item['total'] ?? 0;
+    final bool isAvailable = availableCount > 0;
     final double stockRatio = totalCount > 0 ? (availableCount / totalCount) : 0.0;
 
     return Scaffold(
@@ -25,11 +27,12 @@ class EquipmentDetailsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Top Blue Header with Back Button and Equipment Icon
-                    Container(
+                                        Container(
                       width: double.infinity,
                       height: 240,
+                      clipBehavior: Clip.antiAlias,
                       decoration: const BoxDecoration(
-                        color: Color(0xFFE8EEFF),
+                        color: Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(32),
                           bottomRight: Radius.circular(32),
@@ -37,13 +40,23 @@ class EquipmentDetailsPage extends StatelessWidget {
                       ),
                       child: Stack(
                         children: [
+                          // Equipment image (from the app's assets folder)
+                          Positioned.fill(
+                            child: EquipmentImage(
+                              key: ValueKey(item['imagePath'] ?? ''),
+                              imagePath: item['imagePath'] ?? '',
+                              category: item['category'] ?? '',
+                              iconSize: 100,
+                            ),
+                          ),
+
                           // Floating Circular Back Button
                           Positioned(
                             top: 16,
                             left: 16,
                             child: CircleAvatar(
                               radius: 22,
-                              backgroundColor: Colors.white,
+                              backgroundColor: Color(0xFFEEF2FF),
                               child: IconButton(
                                 icon: const Icon(
                                   Icons.arrow_back_ios_new_rounded,
@@ -52,15 +65,6 @@ class EquipmentDetailsPage extends StatelessWidget {
                                 ),
                                 onPressed: () => Navigator.pop(context),
                               ),
-                            ),
-                          ),
-
-                          // Large Icon
-                          Center(
-                            child: Icon(
-                              item['icon'] as IconData,
-                              size: 100,
-                              color: primaryBlue,
                             ),
                           ),
                         ],
@@ -188,8 +192,7 @@ class EquipmentDetailsPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            item['description'] ??
-                                '${item['title']} for coursework, presentations and programming. Charger and carrying case are included with every loan.',
+                            item['description'] ?? 'No description available.',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[700],
@@ -250,12 +253,13 @@ class EquipmentDetailsPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-                  onPressed: isAvailable
+                                    onPressed: isAvailable
                       ? () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  'Borrow request submitted for ${item['title']}!'),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  BorrowRequestPage(item: item),
                             ),
                           );
                         }

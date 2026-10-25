@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'notification_service.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,34 +12,26 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
   
+  await initNotifications();
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BorrowIT',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF1E40AF)),
         scaffoldBackgroundColor: Color(0xFFFAF9F5),
         useMaterial3: true,
       ),
 
-      home: LoginPage(),
+      home: FirebaseAuth.instance.currentUser == null ? LoginPage() : EquipmentPage(),
       debugShowCheckedModeBanner: false,
-      
-      routes: {
-          'equipment' :(context) => EquipmentPage()
-
-      },
-
-      
-
     );
   }
 }
-

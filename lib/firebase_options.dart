@@ -41,32 +41,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyByH4ANqfpuiKuotFK7Hl49dvhPhOGbZ9c',
-    appId: '1:51582803633:web:9216f255f6d88a2e490c90',
-    messagingSenderId: '51582803633',
-    projectId: 'borrowit-dbca5',
-    authDomain: 'borrowit-dbca5.firebaseapp.com',
-    storageBucket: 'borrowit-dbca5.firebasestorage.app',
-    measurementId: 'G-KW947Q3TY1',
+    apiKey: 'AIzaSyAQe6CRAUQpFb3Znhg6xSW1HjUzPG5s1QY',
+    appId: '1:456963431771:web:13586c3f09c42a03da4e7e',
+    messagingSenderId: '456963431771',
+    projectId: 'madborrowit',
+    authDomain: 'madborrowit.firebaseapp.com',
+    storageBucket: 'madborrowit.firebasestorage.app',
+    measurementId: 'G-JSS0RZYBK6',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCSUE1iyjSxDfGxxSJbw0gidZtCwzFU9Tk',
-    appId: '1:51582803633:android:ff5f331e3b0b7352490c90',
-    messagingSenderId: '51582803633',
-    projectId: 'borrowit-dbca5',
-    storageBucket: 'borrowit-dbca5.firebasestorage.app',
+    apiKey: 'AIzaSyBpDrE5Qr0-Dv95K_ZbiK2KMVob1s9yRkw',
+    appId: '1:456963431771:android:0da5c0603f21dc5eda4e7e',
+    messagingSenderId: '456963431771',
+    projectId: 'madborrowit',
+    storageBucket: 'madborrowit.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDlOo8BCn5jBytC8k-1uaaeSM_sEtU_lAI',
-    appId: '1:51582803633:ios:2a038268eae8a0bd490c90',
-    messagingSenderId: '51582803633',
-    projectId: 'borrowit-dbca5',
-    storageBucket: 'borrowit-dbca5.firebasestorage.app',
+    apiKey: 'AIzaSyBOUcJ5HcbcIPd7nZboB8dBftVqP7OI3JY',
+    appId: '1:456963431771:ios:ee635e625c590358da4e7e',
+    messagingSenderId: '456963431771',
+    projectId: 'madborrowit',
+    storageBucket: 'madborrowit.firebasestorage.app',
     iosBundleId: 'com.example.borrowIt',
   );
-
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDlOo8BCn5jBytC8k-1uaaeSM_sEtU_lAI',
     appId: '1:51582803633:ios:2a038268eae8a0bd490c90',
@@ -77,12 +75,12 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyByH4ANqfpuiKuotFK7Hl49dvhPhOGbZ9c',
-    appId: '1:51582803633:web:c14474bc3d67a3b7490c90',
-    messagingSenderId: '51582803633',
-    projectId: 'borrowit-dbca5',
-    authDomain: 'borrowit-dbca5.firebaseapp.com',
-    storageBucket: 'borrowit-dbca5.firebasestorage.app',
-    measurementId: 'G-8PKXBBP787',
+    apiKey: 'AIzaSyAQe6CRAUQpFb3Znhg6xSW1HjUzPG5s1QY',
+    appId: '1:456963431771:web:296c728df8bd34b8da4e7e',
+    messagingSenderId: '456963431771',
+    projectId: 'madborrowit',
+    authDomain: 'madborrowit.firebaseapp.com',
+    storageBucket: 'madborrowit.firebasestorage.app',
+    measurementId: 'G-WCN4JDNCHD',
   );
 }
