@@ -25,6 +25,7 @@ NotificationDetails borrowitDetails = NotificationDetails(
 // Set up notifications (called once in main.dart)
 Future<void> initNotifications() async {
   tz.initializeTimeZones();
+  // Scheduled notifications need a time zone
   tz.setLocalLocation(tz.getLocation('Asia/Manila'));
 
   AndroidInitializationSettings androidSettings =
@@ -71,7 +72,7 @@ Future<void> scheduleReturnReminder(
       debugPrint('Reminder skipped: that time already passed');
       return;
     }
-
+    // Needs the manifest receivers and permissions. The id lets us cancel it later
     await notificationsPlugin.zonedSchedule(
       id: reminderId,
       title: 'Return reminder',

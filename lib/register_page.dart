@@ -46,10 +46,11 @@ class _RegisterPageState extends State<RegisterPage> {
           password: passwordField.text.trim(),
         );
         // Saves to the users collection. fullName, studentId and email are read
-        // by the greeting in EquipmentPage and by ProfilePage, so keep the names the same
         // 2. Save Student Info to Firestore
         if (userCredential.user != null) {
           await firestore
+              // The document id is the auth uid. EquipmentPage and ProfilePage read
+              // fullName, studentId and email from this document, keep the key names
               .collection('users')
               .doc(userCredential.user!.uid)
               .set({

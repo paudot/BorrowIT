@@ -63,6 +63,7 @@ flutter:
   uses-material-design: true
 
   # Images show as icons if this assets folder line is removed or misspelled
+  # Without this line the equipment images and logo fail to load. Indentation is important. The folder must be named assets/images and the images must be in that folder.
   assets:
     - assets/images/
 

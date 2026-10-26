@@ -70,11 +70,13 @@ class _ReturnPageState extends State<ReturnPage> {
     });
 
     try {
+      // Save the after photo first, then mark the request Returned
       await savePhoto(afterPhoto!, widget.requestId, 'after');
       await FirebaseFirestore.instance
           .collection('requests')
           .doc(widget.requestId)
           .update({
+        // Must be exactly Returned. Firestore rules only allow Borrowed to Returned here    
         'status': 'Returned',
         'returnNote': noteField.text.trim(),
         'returnedAt': FieldValue.serverTimestamp(),

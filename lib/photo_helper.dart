@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 // Each file is named after its request: <requestId>_before.jpg or <requestId>_after.jpg
 
 // Photos live in the app documents folder named requestId_before.jpg or requestId_after.jpg
+// The type must stay different or the after photo overwrites the before photo
 // Gets the file where a photo is (or will be) saved
 Future<File> photoFile(String requestId, String type) async {
   Directory folder = await getApplicationDocumentsDirectory();
@@ -74,7 +75,7 @@ class _PhotoBoxState extends State<PhotoBox> {
     loadPhoto();
   }
 
-  // Looks for the saved photo on the phone
+  // Looks for the saved photo on the phone. No file means the box shows "No photo yet"
   Future<void> loadPhoto() async {
     File file = await photoFile(widget.requestId, widget.type);
     if (await file.exists() && mounted) {

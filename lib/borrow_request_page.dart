@@ -66,7 +66,7 @@ class _BorrowRequestPageState extends State<BorrowRequestPage> {
     purposeField.dispose();
     super.dispose();
   }
-
+  // Return date cannot be before the date needed, so it is cleared if needed
   // Pick the date needed
   Future<void> pickDateNeeded() async {
     DateTime today = DateTime.now();
@@ -191,6 +191,7 @@ class _BorrowRequestPageState extends State<BorrowRequestPage> {
           'dateNeeded': Timestamp.fromDate(dateNeeded!),
           'returnDate': Timestamp.fromDate(returnDate!),
           'purpose': purposeField.text.trim(),
+          // Every new request starts as Pending. The reminderId is used for notifications
           'status': 'Pending',
           'reminderId': DateTime.now().millisecondsSinceEpoch ~/ 1000,
           'createdAt': FieldValue.serverTimestamp(),

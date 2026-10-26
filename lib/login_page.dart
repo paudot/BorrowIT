@@ -47,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
             MaterialPageRoute(builder: (context) => const EquipmentPage()),
           );
         }
+      // Wrong email or password ends up here and shows a red SnackBar
       } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

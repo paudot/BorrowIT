@@ -81,7 +81,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
         .snapshots()
         .listen((snapshot) {
             for (var doc in snapshot.docs) {
-        // Ignore changes this phone has not saved to the server yet
+        // Ignore changes this phone has not saved to the server yet so we do not notify ourselves
         if (doc.metadata.hasPendingWrites) {
           continue;
         }
@@ -96,7 +96,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
           showStatusNotification(name, status);
         }
 
-        // The return reminder only exists while the item is borrowed
+        // The return reminder only exists while the item is borrowed. Any other status cancels it
         if (status == 'Borrowed') {
           DateTime returnDate = (data['returnDate'] as Timestamp).toDate();
           scheduleReturnReminder(reminderId, name, returnDate);
@@ -246,8 +246,8 @@ class _EquipmentPageState extends State<EquipmentPage> {
             // Equipment Grid (data comes from Firestore)
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                // Collection name is equipment and it is ordered by title.
-                // Empty list means check the collection name and the field names
+                // Collection name is equipment and it is ordered by title. must match firestore
+                // Empty list means check the collection name and the field names. Wrong names
                 stream: FirebaseFirestore.instance
                     .collection('equipment')
                     .orderBy('title')
@@ -277,6 +277,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
                     bool matchesCategory = selectedCategoryName == 'All' ||
                         item['category'] == selectedCategoryName;
                     String searchText = searchQuery.toLowerCase();
+                    // Search checks title and category. setState in onChanged refreshes it
                     bool matchesSearch =
                         item['title'].toString().toLowerCase().contains(searchText) ||
                             item['category'].toString().toLowerCase().contains(searchText);
@@ -431,6 +432,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         elevation: 8,
+        // index 1 is Requests, 2 is History, 3 is Profile
         onTap: (index) {
           if (index == 1) {
             Navigator.push(

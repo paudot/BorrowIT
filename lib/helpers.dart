@@ -18,6 +18,7 @@ IconData iconForCategory(String category) {
   return Icons.devices_other;
 }
 // Status chip colors
+// Status text must match Firestore exactly. Unknown text falls to the red default
 Color statusBackground(String status) {
   if (status == 'Pending') return Color(0xFFFEF3C7);
   if (status == 'Approved') return Color(0xFFDBEAFE);

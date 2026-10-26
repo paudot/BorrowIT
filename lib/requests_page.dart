@@ -41,6 +41,7 @@ class RequestsPage extends StatelessWidget {
                 await FirebaseFirestore.instance
                     .collection('requests')
                     .doc(requestId)
+                    // Firestore rules only allow deleting Pending requests
                     .delete();
                 await deletePhotos(requestId);
                 messenger.showSnackBar(
@@ -83,7 +84,8 @@ class RequestsPage extends StatelessWidget {
               // Only this student's requests
               stream: FirebaseFirestore.instance
                   .collection('requests')
-                  .where('userId', isEqualTo: user.uid)
+                  // Without this filter or with a wrong field name the list is empty
+                  .where('userId', isEqualTo: user.uid) 
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {

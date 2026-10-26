@@ -245,6 +245,7 @@ class EquipmentDetailsPage extends StatelessWidget {
                 width: double.infinity,
                 height: 52,
                 child: ElevatedButton(
+                  
                   // Disabled when available is 0, otherwise it opens BorrowRequestPage
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isAvailable ? primaryBlue : Colors.grey[400],
